@@ -10,7 +10,6 @@ const App = () => {
   return (
     <div>
       <h1>give feedback</h1>
-
       <Button text={"good"} handleClick={() => setGood(good + 1)} />
       <Button text={"neutral"} handleClick={() => setNeutral(neutral + 1)} />
       <Button text={"bad"} handleClick={() => setBad(bad + 1)} />
@@ -25,17 +24,29 @@ const Button = ({ text, handleClick }) => {
 
 const Statistics = ({ title, good, neutral, bad }) => {
   const all = good + neutral + bad;
-  return (
-    <div>
-      <h1>{title}</h1>
-      <p>good {good} </p>
-      <p>neutral {neutral} </p>
-      <p>bad {bad} </p>
-      <p>all {all}</p>
-      <p>average {(good - bad) / all}</p>
-      <p>positive {(good / all) * 100}%</p>
-    </div>
-  );
+  if (all > 0) {
+    return (
+      <div>
+        <h1>{title}</h1>
+        <table>
+        <Statistic text = 'good' value = {good}/>
+        <Statistic text = 'neutral' value = {neutral}/>
+        <Statistic text = 'bad' value = {bad}/>
+        <Statistic text = 'all' value = {all}/>
+        <Statistic text = 'average' value = {(good - bad) / all }/>
+        <Statistic text = 'positive' value = {(good / all) * 100 + '%'}/>
+        </table>
+      </div>
+    );
+  }
+  return <p>No feeback given</p>;
+};
+
+const Statistic = ({text,value}) => {
+return <tr>
+  <td> {text}</td>
+<td>{value}</td>
+</tr>
 };
 
 ReactDOM.render(<App />, document.getElementById("root"));
