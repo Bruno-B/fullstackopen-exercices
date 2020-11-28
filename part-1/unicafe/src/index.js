@@ -32,8 +32,8 @@ const Statistics = ({ title, good, neutral, bad }) => {
       <p>neutral {neutral} </p>
       <p>bad {bad} </p>
       <p>all {all}</p>
-  <p>average {(good-bad)/all}</p>
-  <p>positive {good/all * 100}%</p>
+      <p>average {(good - bad) / all}</p>
+      <p>positive {(good / all) * 100}%</p>
     </div>
   );
 };
