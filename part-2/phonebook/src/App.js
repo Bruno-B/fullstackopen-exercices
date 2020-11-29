@@ -10,7 +10,6 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newSearch, setNewSearch] = useState("");
-
   const personObject = {
     name: newName,
     number: newNumber,
@@ -41,9 +40,19 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <input value={newSearch} onChange={handleSearchChange} />
+      <Phonebook newSearch = {newSearch} handleSearchChange = {handleSearchChange} />
       <h2>Add a new</h2>
 
+      <Form handleSubmit = {handleSubmit} handleNameChange = {handleNameChange} handleNumberChange = {handleNumberChange} newName = {newName} newNumber = {newNumber} />
+      <h2>Numbers</h2>
+      <Filter persons = {persons} newSearch = {newSearch}  />
+    </div>
+  );
+};
+
+const Form = ({handleNameChange,newName,handleNumberChange,newNumber, handleSubmit}) => {
+  return (
+    <div>
       <form onSubmit={handleSubmit}>
         <div>
           name: <input value={newName} onChange={handleNameChange} />
@@ -55,21 +64,39 @@ const App = () => {
           <button type="submit">add</button>
         </div>
       </form>
-      <h2>Numbers</h2>  
-
-      {(newSearch.length > 0) ? persons.filter((person) => {
-         return person.name.toLowerCase().includes(newSearch)
-        
-      }).map((p)=> {
-          return <p key = {p.name}> {p.name}{p.number} </p>
-      }) : persons.map((person)=>{
-          return <p key = {person.name}> {person.name}{person.number} </p>
-      }) }
     </div>
   );
 };
 
+const Filter = ({persons,newSearch}) => {
+  return (
+    <div>
+      {newSearch.length > 0
+        ? persons
+            .filter((person) => {
+              return person.name.toLowerCase().includes(newSearch.toLowerCase());
+            })
+            .map((p) => {
+                console.log(p)
+              return (
+                <p key={p.name}>
+                  {p.name} {p.number}
+                </p>
+              );
+            })
+        : persons.map((person) => {
+            return (
+              <p key={person.name}>
+                {person.name} {person.number}
+              </p>
+            );
+          })}
+    </div>
+  );
+};
+
+const Phonebook = ({newSearch,handleSearchChange}) => {
+  return <input value={newSearch} onChange={handleSearchChange} />;
+};
+
 export default App;
-
-
- 
