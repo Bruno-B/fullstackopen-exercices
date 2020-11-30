@@ -15,7 +15,11 @@ const App = () => {
     };
 
     if (persons.filter((person) => person.name === personObject.name).length) {
-      alert(`${personObject.name} is already added to the phonebook`);
+      
+      if(window.confirm(`${newName} is already added to the phonebook,replace the old number with a new one?`)){
+       const id = (persons.find((p)=> p.name === newName)).id;
+       personService.update(id,personObject);
+      }
     } else {
       personService.create(personObject).then((response) => {
         setPersons(persons.concat(response.data));
