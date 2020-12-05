@@ -25,25 +25,42 @@ const App = () => {
         )
       ) {
         const id = persons.find((p) => p.name === newName).id;
-        personService.update(id, personObject).then(response=>{
-          setPersons(persons.map(person=>person.id === id ? person : response.data))
-        });
+        personService
+          .update(id, personObject)
+          .then((response) => {
+            setPersons(
+              persons.map((person) =>
+                person.id !== id ? person : response.data
+              )
+            );
+          })
+          .catch((error) => {
+            setSucess(false);
+            setMessage(
+              `Information of ${newName} has already been removed from the server`
+            );
+            setSucess(true);
+            setMessage(`Added ${newName}`);
+            setTimeout(() => {
+              setMessage(null);
+              setSucess(null);
+            }, 5000);
+          });
       }
     } else {
       personService.create(personObject).then((response) => {
         setPersons(persons.concat(response.data));
+        setSucess(true);
+        setMessage(`Added ${newName}`);
+        setTimeout(() => {
+          setMessage(null);
+          setSucess(null);
+        }, 5000);
 
         setNewName("");
         setNewNumber("");
       });
     }
-
-    setSucess(true);
-    setMessage(`Added ${newName}`);
-        setTimeout(() => {
-          setMessage(null)
-          setSucess(null)
-        }, 5000)
   }
 
   function handleNameChange(e) {
@@ -59,18 +76,21 @@ const App = () => {
 
   function handleDelete(person) {
     if (window.confirm(`Delete ${person.name}? `)) {
-      personService.del(person.id);
+      personService.del(person.id).then((response) => {
+        let array = [...persons]; // make a separate copy of the array
+        array.splice(persons.id - 1 , 1);
+
+        setPersons(array);
+        console.log(array)
+      });
     }
   }
 
   useEffect(() => {
-    personService
-      .getAll()
-      .then((response) => {
-        setPersons(response.data);
-      },)
-      ;
-  });
+    personService.getAll().then((response) => {
+      setPersons(response.data);
+    });
+  }, []);
 
   return (
     <div>
@@ -164,11 +184,10 @@ const Phonebook = ({ newSearch, handleSearchChange }) => {
 };
 
 const Notification = ({ message }) => {
-  console.log(message)
   if (message === null) {
     return null;
   }
-    return <div className="sucess">{message}</div>;
+  return <div className="sucess">{message}</div>;
 };
 
 export default App;
