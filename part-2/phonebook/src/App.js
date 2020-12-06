@@ -78,10 +78,8 @@ const App = () => {
     if (window.confirm(`Delete ${person.name}? `)) {
       personService.del(person.id).then((response) => {
         let array = [...persons]; // make a separate copy of the array
-        array.splice(persons.id - 1 , 1);
-
+        array = array.filter(a => a.id!== person.id)
         setPersons(array);
-        console.log(array)
       });
     }
   }
