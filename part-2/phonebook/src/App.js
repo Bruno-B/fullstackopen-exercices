@@ -48,18 +48,25 @@ const App = () => {
           });
       }
     } else {
-      personService.create(personObject).then((response) => {
-        setPersons(persons.concat(response.data));
-        setSucess(true);
-        setMessage(`Added ${newName}`);
-        setTimeout(() => {
-          setMessage(null);
-          setSucess(null);
-        }, 5000);
+      personService
+        .create(personObject)
+        .then((response) => {
+          setPersons(persons.concat(response.data));
+          setSucess(true);
+          setMessage(`Added ${newName}`);
+          setTimeout(() => {
+            setMessage(null);
+            setSucess(null);
+          }, 5000);
 
-        setNewName("");
-        setNewNumber("");
-      });
+          setNewName("");
+          setNewNumber("");
+        })
+        .catch((error) => {
+          // this is the way to access the error message
+          setSucess(false);
+          setMessage(error.response.data.error);
+        });
     }
   }
 
@@ -78,7 +85,7 @@ const App = () => {
     if (window.confirm(`Delete ${person.name}? `)) {
       personService.del(person.id).then((response) => {
         let array = [...persons]; // make a separate copy of the array
-        array = array.filter(a => a.id!== person.id)
+        array = array.filter((a) => a.id !== person.id);
         setPersons(array);
       });
     }
@@ -181,11 +188,16 @@ const Phonebook = ({ newSearch, handleSearchChange }) => {
   return <input value={newSearch} onChange={handleSearchChange} />;
 };
 
-const Notification = ({ message }) => {
-  if (message === null) {
+const Notification = ({ message, sucess }) => {
+  if (message === null || sucess === null) {
     return null;
+  } else {
+    if (sucess) {
+      return <div className="sucess">{message}</div>;
+    } else {
+      return <div className="error">{message}</div>;
+    }
   }
-  return <div className="sucess">{message}</div>;
 };
 
 export default App;
