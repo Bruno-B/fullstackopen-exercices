@@ -22,7 +22,13 @@ const addedBlog = {
   title: "Added blog",
   author: "Stelio Kontos",
   url: "www.stelios.com",
-  likes: 23213,
+  likes: 53434,
+};
+
+const noLikesBlog = {
+  title: "No likes",
+  author: "Nobody",
+  url: "nobody.com",
 };
 beforeEach(async () => {
   await Blog.deleteMany({});
@@ -54,7 +60,8 @@ test("the unique identifier of the blog is defined", async () => {
 });
 
 test("blog is saved", async () => {
-  await api.post("/api/blogs")
+  await api
+    .post("/api/blogs")
     .send(addedBlog)
     .expect(201)
     .expect("Content-Type", /application\/json/);
@@ -63,6 +70,16 @@ test("blog is saved", async () => {
 
   expect(response.body).toHaveLength(initialBlog.length + 1);
   expect(titles).toContain("Added blog");
+});
+
+test("likes default to 0 when not specified", async () => {
+  await api
+    .post("/api/blogs")
+    .send(noLikesBlog)
+    .expect(201)
+    .expect("Content-Type", /application\/json/);
+  const response = await api.get("/api/blogs");
+  expect(response.body[2].likes).toBe(0);
 });
 
 afterAll(() => {
