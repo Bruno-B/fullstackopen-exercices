@@ -1,4 +1,5 @@
-const { TestScheduler } = require('jest')
+const { TestScheduler } = require('jest');
+const blog = require('../models/blog');
 const listHelper = require('../utils/list_helper')
 const blogOne = {
     title: "Go To Statement Considered Harmful",
@@ -17,6 +18,12 @@ const blogOne = {
     author: "Edsger W. Dijkstra",
     likes: 5,
   };
+
+  const blogFour = {
+    title:"Do not read this book",
+    author:"Mike Donati",
+    likes:80,
+  }
 
 describe("most likes",() => {
     const blogList = [blogOne,blogTwo]
@@ -38,3 +45,18 @@ describe("author with most blogs and the respective blogs",()=> {
         expect(result).toEqual({author:blogOne.author,blogs:2})
     })
 })
+
+describe("author with most likes",()=> {
+  const oneBlogList = [blogTwo]
+  const blogList = [blogOne,blogTwo,blogThree]
+  const fourBlogList = [blogOne,blogTwo,blogThree,blogFour]
+  test("when list has 2 blog and 2 authors , author with most likes",() => {
+      const result = listHelper.mostLikes(blogList)
+      expect(result).toEqual({author:blogTwo.author , likes:75})
+  })
+  test("when list has 4 blogs and 3 authors ,author with most likes",() => {
+      const result = listHelper.mostLikes(fourBlogList)
+      expect(result).toEqual({author:blogFour.author,likes:80})
+  })
+})
+
