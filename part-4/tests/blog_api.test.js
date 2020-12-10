@@ -30,6 +30,10 @@ const noLikesBlog = {
   author: "Nobody",
   url: "nobody.com",
 };
+
+const missingProp = {
+  author:"Missing"
+}
 beforeEach(async () => {
   await Blog.deleteMany({});
   let blogObject = new Blog(initialBlog[0]);
@@ -80,6 +84,17 @@ test("likes default to 0 when not specified", async () => {
     .expect("Content-Type", /application\/json/);
   const response = await api.get("/api/blogs");
   expect(response.body[2].likes).toBe(0);
+});
+
+test("bad request if title/url missing", async () => {
+  await api
+    .post("/api/blogs")
+    .send(noLikesBlog)
+    .expect(201)
+    .expect("Content-Type", /application\/json/);
+  const response = await api.get("/api/blogs");
+  console.log(response.body[2])
+  expect(response.body[2]).toBe(0);
 });
 
 afterAll(() => {
