@@ -41,6 +41,11 @@ test('the author of the second  blog ', async () => {
   expect(response.body[1].author).toBe('Myself')
 })
 
+test('the unique identifier of the blog is defined', async () => {
+  const response = await api.get('/api/blogs')
+  expect(response.body[0].id).toBeDefined()
+})
+
 
 afterAll(() => {
   mongoose.connection.close()
