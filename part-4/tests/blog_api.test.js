@@ -10,7 +10,7 @@ test("dummy test", () => {
 const blogOne = {
     title:"Hello World",
     likes:500,
-    author:"Jamal Nguyen",
+    author:"Gregory Ward",
     url:"https://www.example.com/",
     id:"zAgXiPp9OvtBjJwsUvIVaj24"
 }
@@ -24,7 +24,7 @@ const blogTwo = {
 }
 const blogThree = {
     title:"Hello Nothing",
-    likes:250,
+    likes:350,
     author:"Gregory Ward",
     url:"https://www.example.org",
     id:"5s5bW14mQZHFdcKLpUFQausb"
@@ -44,7 +44,7 @@ describe("total likes", () => {
     test("of a bigger list is calculated right",()=>{
         const blogs = [blogOne,blogTwo,blogThree];
         const result = helper.totalLikes(blogs);
-        expect(result).toBe(1000)
+        expect(result).toBe(1100)
 
     })
 });
@@ -66,5 +66,26 @@ describe("favourite blog",()=>{
         const blogs = [blogOne,blogTwo,blogThree]
         const result = helper.mostLiked(blogs)
         expect(result).toEqual(blogOne)
+    })
+})
+
+describe("author with most blogs",()=>{
+    test("of empty list is null",()=>{
+        const blogs = []
+        const result = helper.mostBlogs(blogs)
+        expect(result).toEqual(null)
+
+    })
+
+    test("when list has only one blog return author of that blog",()=>{
+        const blogs =[blogOne]
+        const result = helper.mostBlogs(blogs)
+        expect(result).toEqual({author:"Gregory Ward",blogs:1})
+    })
+
+    test("of a bigger list return author with most blogs",()=>{
+        const blogs = [blogOne,blogTwo,blogThree]
+        const result = helper.mostBlogs(blogs)
+        expect(result).toEqual({author:"Gregory Ward",blogs:2})
     })
 })

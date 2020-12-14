@@ -40,6 +40,7 @@ const mostCommon = (array) => {
 };
 
 const mostBlogs = (blogs) => {
+  if(blogs.length === 0 )return null
   const authors = blogs.map((blog) => blog.author);
   //get most repeated author
   const mostBlogs = mostCommon(authors);
