@@ -89,3 +89,22 @@ describe("author with most blogs",()=>{
         expect(result).toEqual({author:"Gregory Ward",blogs:2})
     })
 })
+
+describe("author with most likes",()=>{
+    test("of empty list is null",() => {
+        const blogs = []
+        const result = helper.mostLikes(blogs)
+        expect(result).toEqual(null)
+    })
+    test("when list has only one blog return author of that blog",()=>{
+        const blogs =[blogTwo]
+        const result = helper.mostLikes(blogs)
+        expect(result).toEqual({author:"Oliwia Coombes",likes:250})
+    })
+    test("of a bigger list return author with most blogs",()=>{
+        const blogs = [blogOne,blogTwo,blogThree]
+        const result = helper.mostLikes(blogs)
+        expect(result).toEqual({author:"Gregory Ward",likes:850})
+    })
+
+})

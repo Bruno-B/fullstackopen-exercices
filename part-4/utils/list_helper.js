@@ -48,11 +48,12 @@ const mostBlogs = (blogs) => {
 };
 
 const mostLikes = (blogs) => {
+  if(blogs.length === 0 ) return null
+  if(blogs.length === 1) return {author:blogs[0].author,likes:blogs[0].likes}
   const sortArray = blogs.sort((a, b) => (a.author > b.author ? 1 : -1));
   let sum = sortArray[0].likes;
   let highestLikes = 0;
   let highestAuthor;
-
   for (let i = 0; i < sortArray.length - 1; i++) {
     if (sortArray[i].author === sortArray[i + 1].author) {
       sum += sortArray[i + 1].likes;
@@ -62,6 +63,7 @@ const mostLikes = (blogs) => {
     if (sum > highestLikes) {
       highestLikes = sum;
       highestAuthor = sortArray[i + 1].author;
+      console.log(highestLikes);
     }
   }
   return { author: highestAuthor, likes: highestLikes };
