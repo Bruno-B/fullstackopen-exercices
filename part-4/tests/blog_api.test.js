@@ -20,6 +20,14 @@ describe("get blogs in db", () => {
   });
 });
 
+describe("unique id.property is id",async() => {
+  test("id exists",async()=>{
+    const response = await api.get("/api/blogs")
+    const firstBlog = response.body[0];
+    expect(firstBlog.id).toBeDefined()
+  })
+})
+
 afterAll(() => {
   mongoose.connection.close();
 });
