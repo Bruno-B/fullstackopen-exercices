@@ -35,6 +35,7 @@ describe("create blog post", async () => {
       author: "new author",
       id: "aBk389VYYHZWcu355zQ2LBg6",
       likes: 25,
+      url:"www.random.com"
     };
     await api
       .post("/api/blogs")
@@ -50,6 +51,7 @@ describe("create blog post", async () => {
       title: "new blog",
       author: "new author",
       id: "aBk389VYYHZWcu355zQ2LBg6",
+      url:"www.nolikes.com"
     };
     await api.post("/api/blogs").send(noLikes);
 
@@ -57,6 +59,15 @@ describe("create blog post", async () => {
     const likes = blogsAtEnd.map((n) => n.likes);
     expect(likes[likes.length-1]).toBe(0);
   });
+
+  test('fails with status code 400 if data invalid', async () => {
+    const invalidBlog = {
+      author:"Ruari Logan",
+      likes:50
+    };
+    await api.post("/api/blogs").send(invalidBlog).expect(400)
+  })
+
 });
 
 afterAll(() => {

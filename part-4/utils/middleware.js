@@ -13,9 +13,10 @@ const unknownEndpoint = (request, response) => {
 };
 
 const errorHandler = (error, request, response, next) => {
-  logger.error(error.message);
-
-  return "babuska";
+  
+  if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+  }
 };
 
 module.exports = {

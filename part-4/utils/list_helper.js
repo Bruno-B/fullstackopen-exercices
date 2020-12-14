@@ -63,7 +63,6 @@ const mostLikes = (blogs) => {
     if (sum > highestLikes) {
       highestLikes = sum;
       highestAuthor = sortArray[i + 1].author;
-      console.log(highestLikes);
     }
   }
   return { author: highestAuthor, likes: highestLikes };
