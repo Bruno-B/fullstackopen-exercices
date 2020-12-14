@@ -1,4 +1,4 @@
-const blog = require('../models/blog')
+const blog = require("../models/blog");
 const initialBlogs = [
   {
     title: "Hello World",
@@ -27,11 +27,6 @@ const initialBlogs = [
 const dummy = (blogs) => {
   return 1;
 };
-
-const blogsInDb = async () => {
-  const blogs = await Blog.find({})
-  return blogs.map(blog => blog.toJSON())
-}
 
 const totalLikes = (blogs) => {
   const totalLikes = blogs.reduce((accumulator, blog) => {
@@ -95,7 +90,6 @@ const mostLikes = (blogs) => {
     if (sum > highestLikes) {
       highestLikes = sum;
       highestAuthor = sortArray[i + 1].author;
-      console.log(highestLikes);
     }
   }
   return { author: highestAuthor, likes: highestLikes };
@@ -104,7 +98,6 @@ const mostLikes = (blogs) => {
 module.exports = {
   dummy,
   initialBlogs,
-  blogsInDb,
   totalLikes,
   mostLiked,
   mostBlogs,
