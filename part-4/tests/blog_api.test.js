@@ -20,13 +20,32 @@ describe("get blogs in db", () => {
   });
 });
 
-describe("unique id.property is id",async() => {
-  test("id exists",async()=>{
-    const response = await api.get("/api/blogs")
+describe("unique id.property is id", async () => {
+  test("id exists", async () => {
+    const response = await api.get("/api/blogs");
     const firstBlog = response.body[0];
-    expect(firstBlog.id).toBeDefined()
-  })
-})
+    expect(firstBlog.id).toBeDefined();
+  });
+});
+
+describe("create blog post", async () => {
+  test("succeds with valid data", async () => {
+    const newBlog = {
+      title: "new blog",
+      author: "new author",
+      id: "aBk389VYYHZWcu355zQ2LBg6",
+      likes: 25,
+    };
+    await api
+      .post("/api/blogs")
+      .send(newBlog)
+      .expect(201)
+      .expect("Content-Type", /application\/json/);
+    const blogsAtEnd = await helper.blogsInDb();
+
+    expect(blogsAtEnd.length).toBe(helper.initialBlogs.length + 1);
+  });
+});
 
 afterAll(() => {
   mongoose.connection.close();
