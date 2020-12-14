@@ -39,3 +39,23 @@ describe("total likes", () => {
 
     })
 });
+
+
+describe("favourite blog",()=>{
+    test("of empty list is zero",()=>{
+        const blogs = []
+        const result = helper.mostLiked(blogs)
+        expect(result).toBe(null)
+    })
+    test("when list has only one blog returns that blog",()=>{
+        const blogs = [blogOne]
+        const result = helper.mostLiked(blogs)
+        expect(result).toBe(blogOne)
+    })
+
+    test("of a bigger list return most liked",()=>{
+        const blogs = [blogOne,blogTwo,blogThree]
+        const result = helper.mostLiked(blogs)
+        expect(result).toBe(blogOne)
+    })
+})
