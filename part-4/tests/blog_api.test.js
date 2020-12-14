@@ -1,102 +1,41 @@
-const mongoose = require("mongoose");
-const supertest = require("supertest");
-const app = require("../app");
-const api = supertest(app);
-const Blog = require("../models/blog");
-const initialBlog = [
-  {
-    title: "HTML is easy",
-    author: "Abraham Lincoln",
-    url: "www.lincoln.com",
-    likes: 324034,
-  },
-  {
-    title: "My blog",
-    author: "Myself",
-    url: "www.myBlog.com",
-    likes: 3442040,
-  },
-];
+const helper = require("../utils/list_helper");
+const api = require("supertest");
 
-const addedBlog = {
-  title: "Added blog",
-  author: "Stelio Kontos",
-  url: "www.stelios.com",
-  likes: 53434,
-};
+test("dummy test", () => {
+  const blogs = [];
+  const result = helper.dummy(blogs);
+  expect(result).toBe(1);
+});
 
-const noLikesBlog = {
-  title: "No likes",
-  author: "Nobody",
-  url: "nobody.com",
-};
-
-const missingProp = {
-  author:"Missing"
+const blogOne = {
+    name:"Hello World",
+    likes:500
 }
-beforeEach(async () => {
-  await Blog.deleteMany({});
-  let blogObject = new Blog(initialBlog[0]);
-  await blogObject.save();
-  blogObject = new Blog(initialBlog[1]);
-  await blogObject.save();
-});
-test("there is one blog", async () => {
-  const response = await api.get("/api/blogs");
-  expect(response.body).toHaveLength(2);
-});
 
-test("the first  blog title", async () => {
-  const response = await api.get("/api/blogs");
+const blogTwo = {
+    name:"Hello Universe",
+    likes:250
+}
+const blogThree = {
+    name:"Hello Nothing",
+    likes:250
+}
 
-  expect(response.body[0].title).toBe("HTML is easy");
-});
+describe("total likes", () => {
+    test("of empty list is zero",() =>{
+        const blogs = []
+        const result = helper.totalLikes(blogs)
+        expect(result).toBe(0)
+    })
+    test("when list has only one blog equals the likes of that",()=>{
+        const blogs = [blogOne]
+        const result = helper.totalLikes(blogs)
+        expect(result).toBe(500)
+    })
+    test("of a bigger list is calculated right",()=>{
+        const blogs = [blogOne,blogTwo,blogThree];
+        const result = helper.totalLikes(blogs);
+        expect(result).toBe(1000)
 
-test("the author of the second  blog ", async () => {
-  const response = await api.get("/api/blogs");
-
-  expect(response.body[1].author).toBe("Myself");
-});
-
-test("the unique identifier of the blog is defined", async () => {
-  const response = await api.get("/api/blogs");
-  expect(response.body[0].id).toBeDefined();
-});
-
-test("blog is saved", async () => {
-  await api
-    .post("/api/blogs")
-    .send(addedBlog)
-    .expect(201)
-    .expect("Content-Type", /application\/json/);
-  const response = await api.get("/api/blogs");
-  const titles = response.body.map((res) => res.title);
-
-  expect(response.body).toHaveLength(initialBlog.length + 1);
-  expect(titles).toContain("Added blog");
-});
-
-test("likes default to 0 when not specified", async () => {
-  await api
-    .post("/api/blogs")
-    .send(noLikesBlog)
-    .expect(201)
-    .expect("Content-Type", /application\/json/);
-  const response = await api.get("/api/blogs");
-  expect(response.body[2].likes).toBe(0);
-});
-
-test("bad request if title/url missing", async () => {
-  await api
-    .post("/api/blogs")
-    .send(noLikesBlog)
-    .expect(201)
-    .expect("Content-Type", /application\/json/);
-  const response = await api.get("/api/blogs");
-  console.log(response.body[2])
-  expect(response.body[2]).toBe(0);
-});
-
-afterAll(() => {
-  mongoose.connection.close();
+    })
 });
