@@ -45,6 +45,18 @@ describe("create blog post", async () => {
 
     expect(blogsAtEnd.length).toBe(helper.initialBlogs.length + 1);
   });
+  test("likes are not defined", async () => {
+    const noLikes = {
+      title: "new blog",
+      author: "new author",
+      id: "aBk389VYYHZWcu355zQ2LBg6",
+    };
+    await api.post("/api/blogs").send(noLikes);
+
+    const blogsAtEnd = await helper.blogsInDb();
+    const likes = blogsAtEnd.map((n) => n.likes);
+    expect(likes[likes.length-1]).toBe(0);
+  });
 });
 
 afterAll(() => {
