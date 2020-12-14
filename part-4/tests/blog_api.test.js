@@ -8,16 +8,16 @@ test("dummy test", () => {
 });
 
 const blogOne = {
-    name:"Hello World",
+    title:"Hello World",
     likes:500
 }
 
 const blogTwo = {
-    name:"Hello Universe",
+    title:"Hello Universe",
     likes:250
 }
 const blogThree = {
-    name:"Hello Nothing",
+    title:"Hello Nothing",
     likes:250
 }
 

@@ -16,7 +16,7 @@ const mostLiked = (blogs) => {
   const mostLikes = Math.max(...likes);
   const mostLiked = blogs.find((blog) => blog.likes === mostLikes);
   const blog = {
-    name: mostLiked.name,
+    title: mostLiked.title,
   };
   return mostLiked;
 };
