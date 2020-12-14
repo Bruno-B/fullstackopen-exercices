@@ -70,13 +70,30 @@ describe("create blog post", async () => {
 });
 
 describe("delete blog", async () => {
-  test("sucess with 204", async () => {
-    const blogsAtStart =  await helper.blogsInDb();
+  test("sucess deleted", async () => {
+    const blogsAtStart = await helper.blogsInDb();
     const blogToDelete = blogsAtStart[0];
     await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
-    const blogsAtEnd = await helper.blogsInDb()
-    expect(blogsAtEnd.length).toBe(blogsAtStart.length - 1 )
+    const blogsAtEnd = await helper.blogsInDb();
+    expect(blogsAtEnd.length).toBe(blogsAtStart.length - 1);
+  });
 
+  describe("update blog content", async () => {
+    test("sucessfully created", async () => {
+      const blog = {
+        title: "Updated Title",
+        url: "www.update.com",
+        author: "Mr.Update",
+        likes: 10000,
+      };
+      const blogsAtStart = await helper.blogsInDb();
+      const blogToUpdate = blogsAtStart[0];
+      await api.put(`/api/blogs/${blogToUpdate.id}`).send(blog).expect(200);
+      const blogsAtEnd = await helper.blogsInDb()
+      const updatedBlog = blogsAtEnd[0]
+
+      expect(updatedBlog.title).toBe("Updated Title")
+    });
   });
 });
 
