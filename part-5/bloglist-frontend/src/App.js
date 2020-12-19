@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import BlogForm from "./components/BlogForm";
@@ -12,7 +11,6 @@ const App = () => {
   const [title, setTitle] = useState("");
   const [url, setURL] = useState("");
   const [author, setAuthor] = useState("");
-  const [createBlogVisible, setCreateBlogVisible] = useState(false);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogAppUser");
