@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
-
+import BlogForm from "./components/BlogForm";
+import Togglable from "./components/Togglable";
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
@@ -11,6 +12,7 @@ const App = () => {
   const [title, setTitle] = useState("");
   const [url, setURL] = useState("");
   const [author, setAuthor] = useState("");
+  const [createBlogVisible, setCreateBlogVisible] = useState(false);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogAppUser");
@@ -97,31 +99,21 @@ const App = () => {
           log out
         </button>
 
-        <h2>create new</h2>
-        <form onSubmit={addBlog}>
-          <label>title</label>
-          <input
-            value={title}
-            onChange={({ target }) => setTitle(target.value)}
-          ></input>
-          <br />
-          <label>author</label>
-          <input
-            value={author}
-            onChange={({ target }) => setAuthor(target.value)}
-          ></input>
-          <br />
-          <label>url</label>
-          <input
-            value={url}
-            onChange={({ target }) => setURL(target.value)}
-          ></input>
-          <br />
-          <button type="submit">create</button>
-        </form>
-        {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} />
-        ))}
+        <Togglable buttonLabel ="new note">
+          <BlogForm
+            blogs={blogs}
+            user={user}
+            addBlog={addBlog}
+            title={title}
+            author={author}
+            url={url}
+            setUser={setUser}
+            setTitle={setTitle}
+            setAuthor={setAuthor}
+            setURL={setURL}
+            blogService={blogService}
+          />
+        </Togglable>
       </div>
     );
   };
