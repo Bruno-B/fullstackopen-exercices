@@ -19,21 +19,24 @@ const BlogForm = ({
         <input
           value={title}
           onChange={({ target }) => setTitle(target.value)}
+          id = "title"
         ></input>
         <br />
         <label>author</label>
         <input
           value={author}
           onChange={({ target }) => setAuthor(target.value)}
+          id="author"
         ></input>
         <br />
         <label>url</label>
         <input
           value={url}
           onChange={({ target }) => setURL(target.value)}
+          id="url"
         ></input>
         <br />
-        <button type="submit">create</button>
+        <button  id = "create-button"type="submit">create</button>
       </form>
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />
