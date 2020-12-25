@@ -14,15 +14,13 @@ const AnecdoteList = () => {
 
   const anecdotes = useSelector((state) => state.anecdote);
   const vote = (anecdote) => {
-    console.log("vote", anecdote.id);
-    dispatch(voteAnecdote(anecdote.id));
+    dispatch(voteAnecdote(anecdote));
     dispatch(displayNotification(`you voted ${anecdote.content}`));
     setTimeout(() => {
       dispatch(hideNotification());
     }, 5000);
   };
 
-  console.log(anecdotes);
 
   return (
     <div>
