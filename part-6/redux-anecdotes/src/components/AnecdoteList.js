@@ -1,10 +1,17 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { initializeAnecdotes, voteAnecdote } from "../reducers/anecdoteReducer";
+import { setNotification } from "../reducers/messageReducer";
+
 const AnecdoteList = (props) => {
   useEffect(() => {
     props.initializeAnecdotes();
   }, []);
+
+  const vote = (anecdote) => {
+    props.voteAnecdote(anecdote)
+    props.setNotification(`you voted ${anecdote.content}`,5)
+  }
   return (
     <div>
       {props.anecdotes.map((anecdote) => (
@@ -12,7 +19,7 @@ const AnecdoteList = (props) => {
           <div>{anecdote.content}</div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => props.voteAnecdote(anecdote)}>vote</button>
+            <button onClick={() => vote(anecdote)}>vote</button>
           </div>
         </div>
       ))}
@@ -23,6 +30,7 @@ const AnecdoteList = (props) => {
 const mapDispatchToProps = {
   voteAnecdote,
   initializeAnecdotes,
+  setNotification
 };
 
 const mapStateToProps = (state) => {
