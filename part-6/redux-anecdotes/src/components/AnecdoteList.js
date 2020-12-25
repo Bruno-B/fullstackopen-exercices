@@ -5,15 +5,13 @@ import {
   displayNotification,
   hideNotification,
 } from "../reducers/messageReducer";
-import anecdoteService from "../services/anecdotes";
 const AnecdoteList = () => {
   const dispatch = useDispatch();
+
   useEffect(() => {
-    anecdoteService
-    .getAll()
-    .then((anecdotes) => dispatch(initializeAnecdotes(anecdotes)));
-  },[dispatch]);
-  
+    dispatch(initializeAnecdotes())
+  }, [dispatch]);
+
   const anecdotes = useSelector((state) => state.anecdote);
   const vote = (anecdote) => {
     console.log("vote", anecdote.id);
