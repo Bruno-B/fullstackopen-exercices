@@ -1,15 +1,14 @@
 const initialState = "test message";
 
-export const displayNotification = (message) => {
-  return {
-    type: "Display",
-    message: message,
-  };
-};
-
-export const hideNotification = () => {
-  return {
-    type: "Hide",
+export const setNotification = (message, seconds) => {
+  return async (dispatch) => {
+    dispatch({
+      type: "Display",
+      message,
+    });
+    setTimeout(() => {
+      dispatch({ type: "Hide" });
+    }, 1000*seconds);
   };
 };
 
