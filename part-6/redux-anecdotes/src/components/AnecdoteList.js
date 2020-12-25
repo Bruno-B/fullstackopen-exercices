@@ -9,9 +9,9 @@ const AnecdoteList = (props) => {
   }, []);
 
   const vote = (anecdote) => {
-    props.voteAnecdote(anecdote)
-    props.setNotification(`you voted ${anecdote.content}`,5)
-  }
+    props.voteAnecdote(anecdote);
+    props.setNotification(`you voted ${anecdote.content}`, 5);
+  };
   return (
     <div>
       {props.anecdotes.map((anecdote) => (
@@ -30,7 +30,7 @@ const AnecdoteList = (props) => {
 const mapDispatchToProps = {
   voteAnecdote,
   initializeAnecdotes,
-  setNotification
+  setNotification,
 };
 
 const mapStateToProps = (state) => {
