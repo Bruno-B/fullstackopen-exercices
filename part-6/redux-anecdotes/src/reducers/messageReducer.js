@@ -1,4 +1,5 @@
 const initialState = "test message";
+let timeoutId;
 
 export const setNotification = (message, seconds) => {
   return async (dispatch) => {
@@ -6,9 +7,10 @@ export const setNotification = (message, seconds) => {
       type: "Display",
       message,
     });
-    setTimeout(() => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
       dispatch({ type: "Hide" });
-    }, 1000*seconds);
+    }, 1000 * seconds);
   };
 };
 
