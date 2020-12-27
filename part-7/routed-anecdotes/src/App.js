@@ -100,9 +100,9 @@ const CreateNew = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.value,
+      author: author.value,
+      info: info.value,
       votes: 0,
     });
     const location = {
@@ -112,6 +112,12 @@ const CreateNew = (props) => {
     history.push(location);
   };
 
+  const reset = (e) => {
+    e.preventDefault();
+    content.clear();
+    author.clear();
+    info.clear();
+  };
   return (
     <div>
       <h2>create a new anecdote</h2>
@@ -129,6 +135,7 @@ const CreateNew = (props) => {
           <input {...info} />
         </div>
         <button>create</button>
+        <button onClick={reset}>reset</button>
       </form>
     </div>
   );
