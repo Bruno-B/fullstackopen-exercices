@@ -34,7 +34,6 @@ const useCountry = (name) => {
 };
 
 const Country = ({ country }) => {
-  console.log(country);
   if (!country) {
     return null;
   }
