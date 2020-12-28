@@ -21,7 +21,7 @@ const useCountry = (name) => {
   useEffect(() => {
     if (name) {
       axios
-        .get(`https://restcountries.eu/rest/v2/name/${name}`)
+        .get(`https://restcountries.eu/rest/v2/name/${name}?fullText=true`)
         .then((res) => {
           setCountry({ data: res.data[0], found: true });
         })
