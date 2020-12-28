@@ -3,15 +3,18 @@ import blogService from "./services/blogs";
 import loginService from "./services/login";
 import BlogForm from "./components/BlogForm";
 import Togglable from "./components/Togglable";
+import Blog from "./components/Blog";
+import Notification from "./components/Notification";
 const App = () => {
   const [blogs, setBlogs] = useState([]);
+  const [addedBlog, setAddedBlog] = useState();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const [title, setTitle] = useState("");
   const [url, setURL] = useState("");
   const [author, setAuthor] = useState("");
-
+  const [failedLogin, setFailedLogin] = useState(null);
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogAppUser");
     if (loggedUserJSON) {
@@ -38,6 +41,7 @@ const App = () => {
       setUsername("");
       setPassword("");
     } catch (error) {
+      setFailedLogin(true);
       console.log(error);
     }
   };
@@ -50,6 +54,7 @@ const App = () => {
       setTitle("");
       setURL("");
       setAuthor("");
+      setAddedBlog(blog);
     } catch (error) {
       console.log(error);
     }
@@ -59,6 +64,9 @@ const App = () => {
     return (
       <div>
         <h1>log in to the application</h1>
+        {failedLogin && (
+          <Notification message={"wrong username or password"} color={"red"} />
+        )}
         <form onSubmit={handleLogin}>
           <label>Username:</label>
           <input
@@ -78,7 +86,9 @@ const App = () => {
             onChange={({ target }) => setPassword(target.value)}
           ></input>
           <br />
-          <button id="login-button" type="submit">login</button>
+          <button id="login-button" type="submit">
+            login
+          </button>
         </form>
       </div>
     );
@@ -88,6 +98,13 @@ const App = () => {
     return (
       <div>
         <h2>blogs</h2>
+
+        {addedBlog && (
+          <Notification
+            message={`a new blog ${addedBlog.title} by ${addedBlog.author} was added`}
+            color={"green"}
+          />
+        )}
         <p>{user.username} logged in </p>
         <button
           onClick={() => {
@@ -99,9 +116,8 @@ const App = () => {
           log out
         </button>
 
-        <Togglable buttonLabel ="new note" id = "new-note">
+        <Togglable buttonLabel="new note" id="new-note">
           <BlogForm
-            blogs={blogs}
             user={user}
             addBlog={addBlog}
             title={title}
@@ -114,6 +130,9 @@ const App = () => {
             blogService={blogService}
           />
         </Togglable>
+        {blogs.map((blog) => (
+          <Blog key={blog.id} blog={blog} />
+        ))}
       </div>
     );
   };

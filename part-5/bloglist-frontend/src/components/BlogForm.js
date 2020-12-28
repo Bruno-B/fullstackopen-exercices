@@ -1,7 +1,5 @@
 import React from "react";
-import Blog from "./Blog";
 const BlogForm = ({
-  blogs,
   addBlog,
   title,
   author,
@@ -38,9 +36,6 @@ const BlogForm = ({
         <br />
         <button  id = "create-button"type="submit">create</button>
       </form>
-      {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
-      ))}
     </div>
   );
 };
