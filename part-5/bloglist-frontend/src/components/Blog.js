@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import blogService from "../services/blogs";
-const Blog = ({ blog }) => {
+import React, { useState } from "react";
+const Blog = ({ blog, user, handleLikes, handleDelete }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -9,20 +8,10 @@ const Blog = ({ blog }) => {
     marginBottom: 5,
   };
   const [view, setView] = useState(false);
-  const handleLikes = (params) => {
-    const blog = {
-      user: params.user.id,
-      likes: params.likes + 1,
-      author: params.author,
-      title: params.title,
-      url: params.url,
-    };
-    blogService.update(params.id, blog);
-  };
+
   const handleClick = () => {
     setView(!view);
   };
-
 
   return (
     <div style={blogStyle}>
@@ -37,9 +26,21 @@ const Blog = ({ blog }) => {
       {view && (
         <div>
           <p>{blog.url}</p>
-          <p>likes {blog.likes}</p>
-          <button onClick={() => handleLikes(blog)}>like</button>
+          <p>
+            likes {blog.likes}
+            <button onClick={() => handleLikes(blog)}>like</button>
+          </p>
           <p>{blog.author} </p>
+          {console.log(blog)}
+          {blog.user.username === user && (
+            <button
+              onClick={() => {
+                handleDelete(blog);
+              }}
+            >
+              remove
+            </button>
+          )}
         </div>
       )}
     </div>

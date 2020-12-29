@@ -25,7 +25,7 @@ const App = () => {
   }, []);
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
-  }, [<BlogForm />]);
+  }, []);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -57,6 +57,30 @@ const App = () => {
       setAddedBlog(blog);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleLikes = async (params) => {
+    const blog = {
+      user: params.user.id,
+      likes: params.likes + 1,
+      author: params.author,
+      title: params.title,
+      url: params.url,
+    };
+    const updatedBlog = await blogService.update(params.id, blog);
+    const updatedBlogWithUser = { ...updatedBlog, user: params.user };
+    const updateBlogs = blogs.map((blog) =>
+      blog.id === params.id ? updatedBlogWithUser : blog
+    );
+
+    setBlogs(updateBlogs);
+  };
+  const handleDelete = async (params) => {
+    if (window.confirm(`Remove blog ${params.title} by ${params.author}`)) {
+      await blogService.del(params.id);
+      const updatedBlogs = blogs.filter((blog) => blog.id !== params.id);
+      setBlogs(updatedBlogs);
     }
   };
 
@@ -133,7 +157,14 @@ const App = () => {
         {blogs
           .sort((a, b) => b.likes - a.likes)
           .map((blog) => (
-            <Blog key={blog.id} blog={blog} blogService={blogService} />
+            <Blog
+              key={blog.id}
+              blog={blog}
+              blogService={blogService}
+              user={user.username}
+              handleLikes={handleLikes}
+              handleDelete={handleDelete}
+            />
           ))}
       </div>
     );
