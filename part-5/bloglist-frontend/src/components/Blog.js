@@ -20,7 +20,9 @@ const Blog = ({ blog, user, handleLikes, handleDelete }) => {
         {view ? (
           <button onClick={handleClick}>hide</button>
         ) : (
-          <button onClick={handleClick}>view</button>
+          <button id="view-button" onClick={handleClick}>
+            view
+          </button>
         )}
       </p>
       {view && (
@@ -31,9 +33,9 @@ const Blog = ({ blog, user, handleLikes, handleDelete }) => {
             <button onClick={() => handleLikes(blog)}>like</button>
           </p>
           <p>{blog.author} </p>
-          {console.log(blog)}
           {blog.user.username === user && (
             <button
+              id="remove-button"
               onClick={() => {
                 handleDelete(blog);
               }}

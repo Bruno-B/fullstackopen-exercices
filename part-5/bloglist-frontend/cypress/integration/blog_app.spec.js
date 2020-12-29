@@ -10,6 +10,8 @@ describe("Blog app", function () {
   });
 
   it("login form is shown", function () {
+    cy.visit("http://localhost:3000");
+
     cy.contains("login").click();
   });
 
@@ -29,7 +31,7 @@ describe("Blog app", function () {
     });
   });
 
-  describe("When logged in", function () {
+  describe.only("When logged in", function () {
     beforeEach(function () {
       cy.get("#username").type("SomeUser");
       cy.get("#password").type("SomeGoodPassword");
@@ -43,6 +45,16 @@ describe("Blog app", function () {
       cy.get("#url").type("www.test.com");
       cy.get("#create-button").click();
       cy.contains("How to test Habibah Clarkson");
+    });
+    it("A blog can be deleted", function () {
+      cy.get("#new-note").click();
+      cy.get("#title").type("How to test");
+      cy.get("#author").type("Habibah Clarkson");
+      cy.get("#url").type("www.test.com");
+      cy.get("#create-button").click();
+      cy.contains("How to test Habibah Clarkson");
+      cy.get("#view-button").click();
+      cy.get("#remove-button").click();
     });
   });
 });
