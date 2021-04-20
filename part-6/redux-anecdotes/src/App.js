@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
 import AnecdoteForm from "./components/AnecdoteForm";
 import AnecdoteList from "./components/AnecdoteList";
-import { createAnecdote, voteAnecdote } from "./reducers/anecdoteReducer";
 
 const App = () => {
   return (
