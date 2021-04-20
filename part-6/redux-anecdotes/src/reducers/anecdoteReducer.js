@@ -20,7 +20,6 @@ const asObject = (anecdote) => {
 const ADD = "ADD";
 const VOTE = "VOTE";
 
-
 const updateAnecdoteVotesInArray = (array, id) => {
   return array.map((item) => {
     if (item.id === id) return { ...item, votes: item.votes + 1 };
@@ -49,9 +48,6 @@ const createNewAnecdote = (array, text) => {
 const initialState = anecdotesAtStart.map(asObject);
 
 const reducer = (state = initialState, action) => {
-  console.log("state now: ", state);
-  console.log("action", action);
-
   switch (action.type) {
     case VOTE:
       return updateAnecdoteVotesInArray(state, action.payload);
