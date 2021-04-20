@@ -1,24 +1,31 @@
-const initialState = "WARNING"
+const initialState = "";
 
-const MESSAGE = "MESSAGE";
+const SHOW = "SHOW";
+const HIDE = "HIDE";
 
-export const displayMessage = (text) => {
+export const displayNotification = (text) => {
   return {
-    type:MESSAGE,
-    payload:text
-  }
-}
+    type: SHOW,
+    payload: text,
+  };
+};
 
-const reducer = (state = initialState , action) => {
+export const hideNotification = () => {
+  return {
+    type: HIDE,
+  };
+};
+
+const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case MESSAGE:
-      
+    case SHOW:
       return action.payload;
-  
+
+    case HIDE:
+      return "";
     default:
       return state;
   }
-}
-
+};
 
 export default reducer;
