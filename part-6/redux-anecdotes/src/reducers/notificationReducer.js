@@ -1,12 +1,12 @@
 const initialState = "";
 
-const SHOW = "SHOW";
+const SET = "SET";
 const HIDE = "HIDE";
 
-export const displayNotification = (text) => {
+export const showNotification = (message) => {
   return {
-    type: SHOW,
-    payload: text,
+    type: SET,
+    payload: message,
   };
 };
 
@@ -16,9 +16,18 @@ export const hideNotification = () => {
   };
 };
 
+export const setNotification = (message, timeInSeconds) => {
+  return  (dispatch) => {
+    dispatch(showNotification(message))
+    setTimeout(() => {
+      dispatch(hideNotification());
+    }, timeInSeconds * 1000);
+  };
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case SHOW:
+    case SET:
       return action.payload;
 
     case HIDE:
