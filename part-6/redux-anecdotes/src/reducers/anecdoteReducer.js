@@ -17,11 +17,29 @@ const asObject = (anecdote) => {
   };
 };
 
+const ADD = "ADD";
+const VOTE = "VOTE";
+
+
 const updateAnecdoteVotesInArray = (array, id) => {
   return array.map((item) => {
     if (item.id === id) return { ...item, votes: item.votes + 1 };
     else return item;
   });
+};
+
+export const voteAnecdote = (id) => {
+  return {
+    type: VOTE,
+    payload: id,
+  };
+};
+
+export const createAnecdote = (text) => {
+  return {
+    type: ADD,
+    payload: text,
+  };
 };
 
 const createNewAnecdote = (array, text) => {
@@ -35,10 +53,10 @@ const reducer = (state = initialState, action) => {
   console.log("action", action);
 
   switch (action.type) {
-    case "VOTE":
+    case VOTE:
       return updateAnecdoteVotesInArray(state, action.payload);
 
-    case "ADD":
+    case ADD:
       return createNewAnecdote(state, action.payload);
 
     default:
