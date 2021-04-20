@@ -7,23 +7,27 @@ const getAll = async () => {
   return response.data;
 };
 
+const createNew = async (text) => {
+  const anecdote = {
+    content: text,
+    votes: 0,
+    id: getId(),
+  };
+  const response = await axios.post(baseUrl, anecdote);
+  return response.data;
+};
 const getId = () => (100000 * Math.random()).toFixed(0);
 
-
-const createNew = async(text) => {
-  const anecdote = {
-    content:text,
-    votes:0,
-    id:getId()
-  }
-  const response = await axios.post(baseUrl,anecdote);
+const vote = async (anecdote) => {
+  const newAnecdote = { ...anecdote, votes: anecdote.votes + 1 };
+  const response = await axios.put(`${baseUrl}/${anecdote.id}`, newAnecdote);
   return response.data;
-}
-
+};
 
 const service = {
   getAll,
-  createNew
+  createNew,
+  vote,
 };
 
 export default service;

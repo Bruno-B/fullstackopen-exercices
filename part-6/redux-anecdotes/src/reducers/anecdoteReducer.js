@@ -11,10 +11,13 @@ const updateAnecdoteVotesInArray = (array, id) => {
   });
 };
 
-export const voteAnecdote = (id) => {
-  return {
-    type: VOTE,
-    payload: id,
+export const voteAnecdote = (anecdote) => {
+  return async (dispatch) => {
+    const newAnecdote = await anecdoteService.vote(anecdote);
+    dispatch({
+      type: VOTE,
+      payload: anecdote.id,
+    });
   };
 };
 
