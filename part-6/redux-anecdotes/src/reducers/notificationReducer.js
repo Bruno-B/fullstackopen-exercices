@@ -16,11 +16,14 @@ export const hideNotification = () => {
   };
 };
 
+let timeout ;
 export const setNotification = (message, timeInSeconds) => {
-  return  (dispatch) => {
-    dispatch(showNotification(message))
-    setTimeout(() => {
+  return (dispatch) => {
+    dispatch(showNotification(message));
+    if (timeout) clearTimeout(timeout);
+    timeout = setTimeout(() => {
       dispatch(hideNotification());
+      timeout = null;
     }, timeInSeconds * 1000);
   };
 };
