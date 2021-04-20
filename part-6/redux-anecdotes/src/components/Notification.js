@@ -11,14 +11,12 @@ const Notification = () => {
     borderWidth: 1,
   };
 
-
   useEffect(() => {
-    if (notification)return
+    if (notification) return;
     setTimeout(() => {
       dispatch(hideNotification());
-    },5000)
-  })
-
+    }, 5000);
+  });
 
   if (notification) return <div style={style}> {notification} </div>;
   else return null;
