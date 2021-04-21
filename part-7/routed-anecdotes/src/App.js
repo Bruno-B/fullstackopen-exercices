@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Link, Route, Switch,useParams } from "react-router-dom";
 
 const Menu = () => {
   const padding = {
@@ -7,11 +7,11 @@ const Menu = () => {
   };
   return (
     <div>
-      <Link to="/">anecdotes </Link>
+      <Link style = {padding} to="/">anecdotes </Link>
 
-      <Link to="/create">create new </Link>
+      <Link style = {padding} to="/create">create new </Link>
 
-      <Link to="/about">about </Link>
+      <Link style = {padding} to="/about">about </Link>
     </div>
   );
 };
@@ -21,11 +21,25 @@ const AnecdoteList = ({ anecdotes }) => (
     <h2>Anecdotes</h2>
     <ul>
       {anecdotes.map((anecdote) => (
-        <li key={anecdote.id}>{anecdote.content}</li>
+        <li key={anecdote.id}>
+          <Link to={`anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+        </li>
       ))}
     </ul>
   </div>
 );
+
+const Anecdote = ({anecdotes}) => {
+  const id = useParams().id;
+  const anecdote = anecdotes.find(anecdote => anecdote.id === id);
+  return (
+    <div>
+      <h1> {anecdote.content} </h1>
+      <p>has {anecdote.votes} votes </p>
+      <p>for more info see <a href = {anecdote.info}>{anecdote.info}</a> </p>
+    </div>
+  )
+}
 
 const About = () => (
   <div>
@@ -156,15 +170,18 @@ const App = () => {
         <h1>Software anecdotes</h1>
         <Menu />
         <Switch>
-          <Route exact path = "/">
+          <Route exact path="/">
             <AnecdoteList anecdotes={anecdotes} />
           </Route>
-          <Route path = "/about">
+          <Route path="/anecdotes/:id">
+            <Anecdote anecdotes = {anecdotes} />
+          </Route>
+          <Route path="/about">
             <About />
           </Route>
-          <Route path = "/create">
-            <CreateNew addNew={addNew} />
+          <Route path="/create">
           </Route>
+            <CreateNew addNew={addNew} />
         </Switch>
         <Footer />
       </div>
