@@ -180,8 +180,8 @@ const App = () => {
             <About />
           </Route>
           <Route path="/create">
-          </Route>
             <CreateNew addNew={addNew} />
+          </Route>
         </Switch>
         <Footer />
       </div>
