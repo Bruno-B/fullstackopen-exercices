@@ -1,5 +1,12 @@
-import React, { useState } from "react";
-import { Link, Redirect, Route, Switch, useRouteMatch } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  Link,
+  Route,
+  Switch,
+  useHistory,
+  useLocation,
+  useRouteMatch,
+} from "react-router-dom";
 
 const Menu = () => {
   const padding = {
@@ -36,7 +43,6 @@ const AnecdoteList = ({ anecdotes }) => (
 );
 
 const Anecdote = ({ anecdote }) => {
-  console.log(anecdote);
   return (
     <div>
       <h1> {anecdote.content} </h1>
@@ -47,6 +53,19 @@ const Anecdote = ({ anecdote }) => {
     </div>
   );
 };
+
+const Notification = ({ message }) => {
+  const [notification, setNotification] = useState(message);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setNotification("");
+    }, 10000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return <p>{notification}</p>;
+};
+
 
 const About = () => (
   <div>
@@ -88,6 +107,7 @@ const CreateNew = (props) => {
   const [content, setContent] = useState("");
   const [author, setAuthor] = useState("");
   const [info, setInfo] = useState("");
+  const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -97,6 +117,12 @@ const CreateNew = (props) => {
       info,
       votes: 0,
     });
+
+    const location = {
+      pathname: "/",
+      state: { message: `a new anecdote ${content} created!` },
+    };
+    history.push(location);
   };
 
   return (
@@ -176,12 +202,15 @@ const App = () => {
     ? anecdotes.find((anecdote) => anecdote.id === match.params.id)
     : null;
 
+    const location = useLocation();
+
   return (
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
       <Switch>
         <Route exact path="/">
+        {location.state && <Notification message={location.state.message} />}
           <AnecdoteList anecdotes={anecdotes} />
         </Route>
         <Route path="/anecdotes/:id">
