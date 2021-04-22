@@ -20,6 +20,13 @@ const DetailedBlog = ({handleLike,user,handleRemove}) => {
 			</div>
 			<p> {`Added by ${blog.author}`} </p>
 			{own && <button onClick = {() => handleRemove} >DELETE</button>}
+
+			<h3>Comments</h3>
+			<ul>
+				{blog.comments.map((comment,id) => {
+					return <li key = {id} > {comment} </li>;
+				})}
+			</ul>
 		</div>
 	);
 };
