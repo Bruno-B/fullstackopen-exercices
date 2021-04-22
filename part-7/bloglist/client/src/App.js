@@ -136,6 +136,7 @@ const App = () => {
 				<NewBlog createBlog={createBlog} />
 			</Togglable>
 
+
 			{blogs.sort(byLikes).map(blog =>
 				<Blog
 					key={blog.id}
