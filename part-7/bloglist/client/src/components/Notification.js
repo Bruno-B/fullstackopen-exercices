@@ -6,8 +6,6 @@ const Notification = ({ notification }) => {
 		return null;
 	}
 
-	console.log(notification);
-
 	const style = {
 		borderStyle: "solid",
 		borderRadius: 5,

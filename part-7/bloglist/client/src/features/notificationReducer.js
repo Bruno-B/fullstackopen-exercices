@@ -1,6 +1,6 @@
 const initialState = null;
-const SET = "SET";
-const HIDE = "HIDE";
+const SET_MESSAGE = "SET_MESSAGE";
+const HIDE_MESSAGE = "HIDE_MESSAGE";
 
 export const setNotification = (message) => {
 	return async (dispatch) => {
@@ -12,25 +12,25 @@ export const setNotification = (message) => {
 };
 const showNotification = (message) => {
 	return {
-		type:SET,
+		type:SET_MESSAGE,
 		payload:message
 	};
 };
 
 export const hideNotification = () => {
 	return {
-		type:HIDE,
+		type:HIDE_MESSAGE,
 
 	};
 };
 
 const notificationReducer = (state = initialState , action) => {
 	switch (action.type) {
-	case SET:
+	case SET_MESSAGE:
       
 		return {message:action.payload.message,type:action.payload.type};
   
-	case HIDE:
+	case HIDE_MESSAGE:
 		return null;
 	default:
 		return state;

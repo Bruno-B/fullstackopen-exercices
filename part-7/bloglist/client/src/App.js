@@ -10,11 +10,12 @@ import storage from "./utils/storage";
 import { addBlog, initializeBlogs,likeBlog, removeBlog } from "./features/blogsReducer";
 import { useDispatch, useSelector } from "react-redux";
 import {  setNotification } from "./features/notificationReducer";
+import { logoutUser, setUser } from "./features/usersReducer";
 
 const App = () => {
 	const blogs = useSelector(state => state.blogs);
 	const notification = useSelector(state => state.notification);
-	const [user, setUser] = useState(null);
+	const user = useSelector(state => state.users);
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const dispatch = useDispatch();
@@ -30,7 +31,8 @@ const App = () => {
 
 	useEffect(() => {
 		const user = storage.loadUser();
-		setUser(user);
+		dispatch(setUser(user));
+		
 	}, []);
 
 	const notifyWith = (message, type="success") => {
@@ -47,7 +49,7 @@ const App = () => {
 
 			setUsername("");
 			setPassword("");
-			setUser(user);
+			dispatch(setUser(user));
 			notifyWith(`${user.name} welcome back!`);
 			storage.saveUser(user);
 		} catch(exception) {
@@ -83,7 +85,7 @@ const App = () => {
 	};
 
 	const handleLogout = () => {
-		setUser(null);
+		dispatch(logoutUser());
 		storage.logoutUser();
 	};
 
