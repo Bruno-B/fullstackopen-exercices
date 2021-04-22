@@ -11,6 +11,12 @@ import { addBlog, initializeBlogs,likeBlog, removeBlog } from "./features/blogsR
 import { useDispatch, useSelector } from "react-redux";
 import {  setNotification } from "./features/notificationReducer";
 import { logoutUser, setUser } from "./features/usersReducer";
+import Navigation from "./components/Navigation";
+import { Route, Switch } from "react-router";
+import Users from "./components/Users";
+import User from "./components/User";
+import DetailedBlog from "./components/DetailedBlog";
+
 
 const App = () => {
 	const blogs = useSelector(state => state.blogs);
@@ -101,6 +107,7 @@ const App = () => {
             username
 						<input
 							id='username'
+							autoComplete= "username"
 							value={username}
 							onChange={({ target }) => setUsername(target.value)}
 						/>
@@ -112,6 +119,7 @@ const App = () => {
 							value={password}
 							onChange={({ target }) => setPassword(target.value)}
 							type="password"
+							autoComplete= "current-password"
 						/>
 					</div>
 					<button id='login'>login</button>
@@ -124,28 +132,44 @@ const App = () => {
 
 	return (
 		<div>
-			<h2>blogs</h2>
+			<Navigation/>
 
+			<h2>blog app</h2>
 			<Notification notification={notification} />
 
 			<p>
 				{user.name} logged in <button onClick={handleLogout}>logout</button>
 			</p>
 
-			<Togglable buttonLabel='create new blog'  ref={blogFormRef}>
-				<NewBlog createBlog={createBlog} />
-			</Togglable>
+			
+			<Switch>
+				
+				<Route exact path ="/">
+					<Togglable buttonLabel='create new blog'  ref={blogFormRef}>
+						<NewBlog createBlog={createBlog} />
+					</Togglable>
 
-
-			{blogs.sort(byLikes).map(blog =>
-				<Blog
-					key={blog.id}
-					blog={blog}
-					handleLike={handleLike}
-					handleRemove={handleRemove}
-					own={user.username===blog.user.username}
-				/>
-			)}
+					{blogs.sort(byLikes).map(blog =>
+						<Blog
+							key={blog.id}
+							blog={blog}
+							handleLike={handleLike}
+							handleRemove={handleRemove}
+							own={user.username===blog.user.username}
+						/>
+					)}
+				</Route>
+				<Route exact path ="/users">
+					<Users/>
+				</Route>
+				<Route path = "/users/:id">
+					<User/>
+				</Route>
+				<Route path ="/blogs/:id">
+					<DetailedBlog handleLike = {handleLike} user = {user.username} handleRemove = {handleRemove} />
+				</Route>
+				
+			</Switch>
 		</div>
 	);
 };

@@ -19,7 +19,6 @@ export const logoutUser = () => {
 const usersReducer = (state = initialState,action) => {
 	switch (action.type) {
 	case SET_USER:
-		console.log(action.payload);
 		return action.payload;
   
 	case UNSET_USER:
