@@ -4,6 +4,7 @@ const INIT = "INIT";
 const ADD = "ADD";
 const REMOVE = "REMOVE";
 const LIKE = "LIKE";
+const COMMENT = "COMMENT";
 export const initializeBlogs = (blogs) => {
 	return {
 		type:INIT,
@@ -32,6 +33,13 @@ export const likeBlog = (blog) => {
 	};
 };
 
+export const commentBlog = (blog) => {
+	return {
+		type:COMMENT,
+		payload:blog
+	};
+};
+
 const blogsReducer = (state = initialState , action) => {
 	switch (action.type) {
 	case INIT:
@@ -45,6 +53,9 @@ const blogsReducer = (state = initialState , action) => {
 
 	case LIKE:
 		return state.map(b => b.id === action.payload.id ?  { ...action.payload, likes: action.payload.likes + 1 } : b);
+
+	case COMMENT:
+		return state.map(b => b.id === action.payload.id ? {...action.payload,comments:action.payload.comments} : b);
 	default:
 		return state;
 	}

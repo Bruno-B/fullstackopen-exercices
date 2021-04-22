@@ -1,16 +1,30 @@
 import { Link } from "react-router-dom";
 import React from "react";
+import { AppBar, List, ListItem } from "@material-ui/core";
 const Navigation = () => {
-	return (
-		<nav>
-			<ul>
-				<li>
-					<Link to = "/">blogs</Link>
-					<Link to = "/users">users</Link>
 
-				</li>
-			</ul>
-		</nav>
+
+
+	return (
+		<AppBar>	
+			<nav>
+				<List display = "flex" flexDirection = "row" >
+					<ListItem >
+						<Link to = "/" style = {{color:"white"}}>
+								Blogs
+						</Link>
+					</ListItem>
+					<ListItem>
+
+						<Link to = "/users" style = {{color:"white"}}>
+							Users
+						</Link>
+
+					</ListItem>
+				</List>
+			</nav>
+		</AppBar>
+
 	);
 };
 

@@ -16,6 +16,7 @@ import { Route, Switch } from "react-router";
 import Users from "./components/Users";
 import User from "./components/User";
 import DetailedBlog from "./components/DetailedBlog";
+import { Box, Button } from "@material-ui/core";
 
 
 const App = () => {
@@ -132,20 +133,22 @@ const App = () => {
 
 	return (
 		<div>
-			<Navigation/>
+			<Box display = "flex" flexDirection= "row" alignItems = "center">
+				<Navigation/>
 
-			<h2>blog app</h2>
+				<p>
+					{user.name} logged in <Button variant = "outlined" color = "secondary" onClick={handleLogout}>logout</Button>
+				</p>
+			</Box>
+			<h1>Blog App</h1>
+
 			<Notification notification={notification} />
-
-			<p>
-				{user.name} logged in <button onClick={handleLogout}>logout</button>
-			</p>
 
 			
 			<Switch>
 				
 				<Route exact path ="/">
-					<Togglable buttonLabel='create new blog'  ref={blogFormRef}>
+					<Togglable buttonLabel='Create New Blog'  ref={blogFormRef}>
 						<NewBlog createBlog={createBlog} />
 					</Togglable>
 

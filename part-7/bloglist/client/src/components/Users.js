@@ -1,3 +1,4 @@
+import { TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import userService from "../services/users";
@@ -13,31 +14,32 @@ const Users = () => {
 	return (
 		<div>
 			<h2>Users</h2>
-			<table>
-				<thead>
-					<tr>
-						<th></th>
-						<th>blogs created</th>
-					</tr>
-				</thead>
+			<TableContainer>
+				<TableHead>
+					<TableRow>
+						<TableCell></TableCell>
+						<TableCell>Blogs Created</TableCell>
+					</TableRow>
+				</TableHead>
 				<tbody>
 					{users.map(user => {
 						return (
-							<tr key = {user.id}>
-								<td>
+							<TableRow key = {user.id}>
+								<TableCell>
 									<Link to = {`/users/${user.id}`}>
 										{user.name}
 									</Link>
-								</td>
-								<td> {user.blogs.length} </td>
-							</tr>
+								</TableCell>
+								<TableCell> {user.blogs.length} </TableCell>
+							</TableRow>
 						);
 					})}
 				</tbody>
-			</table>
+			</TableContainer>
 		</div>
 	);
 };
 
 
 export default Users;
+

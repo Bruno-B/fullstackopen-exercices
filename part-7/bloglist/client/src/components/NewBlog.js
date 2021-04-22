@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { Button, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 
 const NewBlog = (props) => {
@@ -23,30 +24,33 @@ const NewBlog = (props) => {
 			<h2>create new</h2>
 			<form onSubmit={handleNewBlog}>
 				<div>
-          author
-					<input
+					<TextField
+						label="author"
+						variant= "standard"
 						id='author'
 						value={author}
 						onChange={({ target }) => setAuthor(target.value)}
 					/>
 				</div>
 				<div>
-          title
-					<input
+					<TextField
+						variant= "standard"
+						label="title"
 						id='title'
 						value={title}
 						onChange={({ target }) => setTitle(target.value)}
 					/>
 				</div>
 				<div>
-          url
-					<input
+					<TextField
+						variant= "standard"			
+						label="url"
 						id='url'
 						value={url}
 						onChange={({ target }) => setUrl(target.value)}
 					/>
 				</div>
-				<button id="create">create</button>
+				<Button variant = "outlined" color = "primary" id="create">create</Button>
 			</form>
 		</div>
 	);
